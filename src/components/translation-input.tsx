@@ -20,16 +20,18 @@ interface TranslationInputProps {
   readOnly?: boolean;
   canClear?: boolean;
   canCopy?: boolean;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void;
 }
 
 export function TranslationInput({
   value,
   onChange,
-  placeholder = 'Type something here...',
+  placeholder = "Type something here...",
   maxLength = 10000,
   readOnly = false,
   canClear = false,
   canCopy = false,
+  onKeyDown,
 }: TranslationInputProps) {
   const [charCount, setCharCount] = useState(0);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -47,17 +49,17 @@ export function TranslationInput({
 
   const handleClear = () => {
     if (onChange) {
-      onChange('');
+      onChange("");
     }
   };
 
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(value);
-      toast.success('Copied to clipboard');
+      toast.success("Copied to clipboard");
     } catch (error) {
-      toast.error('Failed to copy text');
-      console.error('Copy error:', error);
+      toast.error("Failed to copy text");
+      console.error("Copy error:", error);
     }
   };
 
@@ -67,6 +69,7 @@ export function TranslationInput({
         <Textarea
           ref={textareaRef}
           value={value}
+          onKeyDown={onKeyDown}
           onChange={handleChange}
           placeholder={placeholder}
           className="min-h-[200px] resize-none w-full font-sans text-base"

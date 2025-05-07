@@ -28,7 +28,7 @@ export const useTranslateStore = create<TranslateStore>((set) => ({
   sourceText: '',
   translatedText: '',
   sourceLanguage: 'auto',
-  targetLanguage: 'es', // Spanish as default target
+  targetLanguage: 'vi',
   dictionary: null,
   isTranslating: false,
   error: null,
@@ -42,8 +42,8 @@ export const useTranslateStore = create<TranslateStore>((set) => ({
   setDictionary: (dictionary) => set({ dictionary: dictionary }),
   setError: (error) => set({ error }),
   resetTranslation: () => set({
-    sourceText: '',
     translatedText: '',
+    dictionary: null,
     error: null
   }),
   swapLanguages: () => set((state) => {

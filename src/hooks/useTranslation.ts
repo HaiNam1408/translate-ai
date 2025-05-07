@@ -10,7 +10,6 @@ export function useTranslation() {
     sourceText,
     sourceLanguage,
     targetLanguage,
-    dictionary,
     setDictionary,
     setTranslatedText,
     setIsTranslating,
@@ -34,7 +33,6 @@ export function useTranslation() {
   }, [sourceText, setDictionary]);
 
   const translateText = useCallback(async () => {
-    // Don't translate if source text is empty
     if (!sourceText.trim()) {
       return;
     }

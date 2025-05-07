@@ -22,6 +22,7 @@ export function Translator() {
     setSourceLanguage,
     setTargetLanguage,
     swapLanguages,
+    resetTranslation
   } = useTranslateStore();
 
   const { translateText, getDictionary } = useTranslation();
@@ -30,6 +31,17 @@ export function Translator() {
   const handleSwap = () => {
     if (sourceLanguage !== 'auto') {
       swapLanguages();
+    }
+  };
+
+  // Handle on press key down
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.ctrlKey && !e.shiftKey) {
+      e.preventDefault();
+      if (sourceText.trim() && !isTranslating) {
+        translateText();
+        getDictionary();
+      }
     }
   };
 
@@ -73,7 +85,11 @@ export function Translator() {
               <div>
                 <TranslationInput
                   value={sourceText}
-                  onChange={setSourceText}
+                  onChange={(e) => {
+                    setSourceText(e);
+                    resetTranslation();
+                  }}
+                  onKeyDown={handleKeyDown}
                   placeholder="Enter text to translate..."
                   canClear
                 />
@@ -92,7 +108,7 @@ export function Translator() {
             {/* Translation button */}
             <div className="flex justify-center">
               <Button
-                onClick={() =>{
+                onClick={() => {
                   translateText();
                   getDictionary();
                 }}
@@ -102,7 +118,7 @@ export function Translator() {
                 {isTranslating ? "Translating..." : "Translate"}
               </Button>
             </div>
-            <DictionaryForm dictionaryData={dictionary}/>
+            <DictionaryForm dictionaryData={dictionary} />
           </div>
         </CardContent>
       </Card>
