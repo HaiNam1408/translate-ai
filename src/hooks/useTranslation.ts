@@ -3,16 +3,35 @@
 import { useCallback } from 'react';
 import { useTranslateStore } from '@/store/translateStore';
 import { toast } from 'sonner';
+import { DictionaryType } from '@/types/dictionaty.type';
 
 export function useTranslation() {
   const {
     sourceText,
     sourceLanguage,
     targetLanguage,
+    dictionary,
+    setDictionary,
     setTranslatedText,
     setIsTranslating,
     setError,
   } = useTranslateStore();
+
+  const getDictionary = useCallback(async () => {
+    if (sourceText.trim().split(' ').length > 1) {
+      setDictionary(null);
+      return;
+    }
+
+    const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${sourceText.trim().toLowerCase()}`);
+
+    if (response.ok) {
+      const data: DictionaryType[] = await response.json();
+      setDictionary(data[0]);
+    } else {
+      setDictionary(null);
+    }
+  }, [sourceText, setDictionary]);
 
   const translateText = useCallback(async () => {
     // Don't translate if source text is empty
@@ -53,5 +72,5 @@ export function useTranslation() {
     }
   }, [sourceText, sourceLanguage, targetLanguage, setTranslatedText, setIsTranslating, setError]);
 
-  return { translateText };
+  return { translateText, getDictionary };
 }

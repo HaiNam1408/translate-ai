@@ -1,5 +1,6 @@
 'use client';
 
+import { DictionaryType } from '@/types/dictionaty.type';
 import { create } from 'zustand';
 
 export interface TranslateStore {
@@ -8,6 +9,7 @@ export interface TranslateStore {
   sourceLanguage: string;
   targetLanguage: string;
   isTranslating: boolean;
+  dictionary: DictionaryType | null;
   error: string | null;
 
   // Actions
@@ -17,6 +19,7 @@ export interface TranslateStore {
   setTargetLanguage: (lang: string) => void;
   setIsTranslating: (status: boolean) => void;
   setError: (error: string | null) => void;
+  setDictionary: (dictionaty: DictionaryType | null) => void;
   resetTranslation: () => void;
   swapLanguages: () => void;
 }
@@ -26,6 +29,7 @@ export const useTranslateStore = create<TranslateStore>((set) => ({
   translatedText: '',
   sourceLanguage: 'auto',
   targetLanguage: 'es', // Spanish as default target
+  dictionary: null,
   isTranslating: false,
   error: null,
 
@@ -35,6 +39,7 @@ export const useTranslateStore = create<TranslateStore>((set) => ({
   setSourceLanguage: (lang) => set({ sourceLanguage: lang }),
   setTargetLanguage: (lang) => set({ targetLanguage: lang }),
   setIsTranslating: (status) => set({ isTranslating: status }),
+  setDictionary: (dictionary) => set({ dictionary: dictionary }),
   setError: (error) => set({ error }),
   resetTranslation: () => set({
     sourceText: '',

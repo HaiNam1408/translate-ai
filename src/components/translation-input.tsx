@@ -69,7 +69,7 @@ export function TranslationInput({
           value={value}
           onChange={handleChange}
           placeholder={placeholder}
-          className="min-h-[200px] h-full resize-none w-full font-sans text-base"
+          className="min-h-[200px] resize-none w-full font-sans text-base"
           readOnly={readOnly}
         />
       </div>

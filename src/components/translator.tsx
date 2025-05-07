@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useTranslateStore } from '@/store/translateStore';
@@ -9,6 +8,7 @@ import { TranslationInput } from '@/components/translation-input';
 import { useTranslation } from '@/hooks/useTranslation';
 import { MdSwapHoriz } from 'react-icons/md';
 import { Toaster } from 'sonner';
+import { DictionaryForm } from './dictionary-form';
 
 export function Translator() {
   const {
@@ -17,24 +17,14 @@ export function Translator() {
     sourceLanguage,
     targetLanguage,
     isTranslating,
+    dictionary,
     setSourceText,
     setSourceLanguage,
     setTargetLanguage,
     swapLanguages,
   } = useTranslateStore();
 
-  const { translateText } = useTranslation();
-
-  // Automatically translate after a short delay when text changes
-  useEffect(() => {
-    const debounceTimeout = setTimeout(() => {
-      if (sourceText.trim() && !isTranslating) {
-        translateText();
-      }
-    }, 1000);
-
-    return () => clearTimeout(debounceTimeout);
-  }, [sourceText, sourceLanguage, targetLanguage, isTranslating, translateText]);
+  const { translateText, getDictionary } = useTranslation();
 
   // Handle swap button click
   const handleSwap = () => {
@@ -64,7 +54,7 @@ export function Translator() {
                 variant="ghost"
                 size="icon"
                 onClick={handleSwap}
-                disabled={sourceLanguage === 'auto'}
+                disabled={sourceLanguage === "auto"}
                 className="h-10 w-10 flex-shrink-0"
               >
                 <MdSwapHoriz className="h-5 w-5" />
@@ -102,13 +92,17 @@ export function Translator() {
             {/* Translation button */}
             <div className="flex justify-center">
               <Button
-                onClick={translateText}
+                onClick={() =>{
+                  translateText();
+                  getDictionary();
+                }}
                 disabled={!sourceText.trim() || isTranslating}
                 className="px-8"
               >
-                {isTranslating ? 'Translating...' : 'Translate'}
+                {isTranslating ? "Translating..." : "Translate"}
               </Button>
             </div>
+            <DictionaryForm dictionaryData={dictionary}/>
           </div>
         </CardContent>
       </Card>
