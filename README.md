@@ -2,7 +2,7 @@
 
 TranslateAI is an advanced translation app built with [Next.js](https://nextjs.org) that leverages **Gemini API** (Google AI) for high-quality, context-aware language translations.
 
-Demo: [smart-ai-translate.netlify.app](smart-ai-translate.netlify.app)
+Demo: [smart-ai-translate.netlify.app](https://smart-ai-translate.netlify.app)
 
 ---
 
